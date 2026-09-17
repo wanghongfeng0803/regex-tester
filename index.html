@@ -7,16 +7,100 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="app">
-        <div id="regex-input-area"></div>
-        <div id="main-content">
-            <div id="text-input-area"></div>
-            <div id="match-detail-area"></div>
+<div id="app">
+
+    <!-- 顶部：正则输入区 -->
+    <header id="regex-input-area" class="app-header">
+        <div class="brand">
+            <span class="brand-icon">.*</span>
+            <h1>正则表达式测试工具</h1>
         </div>
-        <div id="replace-area"></div>
-        <div id="template-list"></div>
+        <div class="regex-bar">
+            <span class="regex-delimiter">/</span>
+            <input id="regex-input" type="text" spellcheck="false"
+                   placeholder="在此输入正则表达式，例如 \d+" autocomplete="off">
+            <span class="regex-delimiter">/</span>
+            <div class="flags" id="flags" role="group" aria-label="正则标志">
+                <button type="button" class="flag-btn is-active" data-flag="g" title="全局匹配（替换全部匹配项）">g</button>
+                <button type="button" class="flag-btn" data-flag="i" title="忽略大小写">i</button>
+                <button type="button" class="flag-btn" data-flag="m" title="多行模式（^ 与 $ 匹配每行首尾）">m</button>
+                <button type="button" class="flag-btn" data-flag="s" title="点号匹配所有字符（包含换行符）">s</button>
+            </div>
+            <div id="match-count" class="match-count" aria-live="polite">0 个匹配</div>
+        </div>
+        <div id="regex-error" class="regex-error" hidden>
+            <span class="error-icon">!</span>
+            <span id="regex-error-text"></span>
+        </div>
+    </header>
+
+    <div class="app-body">
+
+        <!-- 中间主工作区 -->
+        <main class="workspace">
+
+            <!-- 中间左：测试文本区 -->
+            <section id="text-input-area" class="panel text-panel">
+                <div class="panel-header">
+                    <h2>测试文本</h2>
+                    <span class="panel-hint">支持多行，黄色高亮为匹配内容</span>
+                </div>
+                <div class="editor-wrap" id="editor-wrap">
+                    <pre id="highlight-layer" class="editor-layer" aria-hidden="true"><code id="highlight-code"></code></pre>
+                    <textarea id="test-text" class="editor-layer" spellcheck="false"
+                              placeholder="在此粘贴或输入待匹配的文本……"></textarea>
+                </div>
+            </section>
+
+            <!-- 中间右：匹配详情面板 -->
+            <section id="match-detail-area" class="panel details-panel">
+                <div class="panel-header">
+                    <h2>匹配详情</h2>
+                </div>
+                <div id="match-details" class="match-details">
+                    <div class="empty-tip">输入正则后将在此显示匹配详情</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 右侧侧边栏：常用正则参考 -->
+        <aside id="template-list" class="sidebar">
+            <div class="panel-header">
+                <h2>常用正则</h2>
+            </div>
+            <ul id="template-ul" class="template-ul"></ul>
+        </aside>
     </div>
-    <script src="js/regex-engine.js"></script>
-    <script src="js/ui-controller.js"></script>
+
+    <!-- 底部：替换功能区 -->
+    <section id="replace-area" class="panel replace-panel">
+        <div class="panel-header">
+            <h2>替换</h2>
+            <span class="panel-hint">支持 $&、$1、$2、$&lt;name&gt; 等引用</span>
+        </div>
+        <div class="replace-bar">
+            <span class="replace-label">替换为</span>
+            <input id="replace-input" type="text" spellcheck="false"
+                   placeholder='例如：[$1] 或 $&amp;（留空表示删除匹配内容）' autocomplete="off">
+            <span id="replace-scope" class="replace-scope">全局替换</span>
+        </div>
+        <div class="diff-wrap">
+            <div class="diff-col">
+                <div class="diff-title">替换前（红色为被替换部分）</div>
+                <pre id="diff-before" class="diff-view"></pre>
+            </div>
+            <div class="diff-col">
+                <div class="diff-title">替换后（绿色为替换结果）</div>
+                <pre id="diff-after" class="diff-view"></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- 悬停提示 -->
+    <div id="match-tooltip" class="match-tooltip" hidden></div>
+</div>
+
+<script src="js/regex-engine.js"></script>
+<script src="js/ui-controller.js"></script>
 </body>
 </html>
