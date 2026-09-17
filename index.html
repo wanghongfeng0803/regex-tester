@@ -8,14 +8,66 @@
 </head>
 <body>
     <div id="app">
-        <div id="regex-input-area"></div>
-        <div id="main-content">
-            <div id="text-input-area"></div>
-            <div id="match-detail-area"></div>
+        <div class="main-column">
+            <!-- 顶部：正则输入 + flags + 匹配统计 -->
+            <div id="regex-input-area">
+                <div class="regex-row">
+                    <span class="regex-delimiter">/</span>
+                    <input type="text" id="regex-input" placeholder="输入正则表达式，如：\b\w+@\w+\.\w+\b"
+                           autocomplete="off" autocapitalize="off" spellcheck="false">
+                    <span class="regex-delimiter">/</span>
+                    <span id="flags-display"></span>
+                    <div id="flags-group">
+                        <button class="flag-btn active" data-flag="g" title="全局匹配：查找所有匹配，而不是找到第一个就停止">g</button>
+                        <button class="flag-btn" data-flag="i" title="忽略大小写：匹配时不区分大小写">i</button>
+                        <button class="flag-btn" data-flag="m" title="多行模式：^ 和 $ 匹配每一行的开头和结尾">m</button>
+                        <button class="flag-btn" data-flag="s" title="点号匹配所有：. 可以匹配换行符">s</button>
+                    </div>
+                    <div id="match-stats">0 个匹配</div>
+                </div>
+                <div id="regex-error" class="hidden"></div>
+            </div>
+
+            <!-- 中间：测试文本区 + 匹配详情面板 -->
+            <div id="main-content">
+                <div id="text-input-area">
+                    <div class="panel-header">测试文本</div>
+                    <div id="text-container">
+                        <div id="highlight-layer" aria-hidden="true"></div>
+                        <textarea id="text-input" placeholder="在此输入待匹配的测试文本（支持多行）..."
+                                  spellcheck="false"></textarea>
+                    </div>
+                </div>
+                <div id="match-detail-area">
+                    <div class="panel-header">匹配详情</div>
+                    <div id="match-list"></div>
+                </div>
+            </div>
+
+            <!-- 底部：替换功能区 -->
+            <div id="replace-area">
+                <div class="replace-input-row">
+                    <label for="replace-input">替换为</label>
+                    <input type="text" id="replace-input" placeholder="替换字符串，支持 $1、$2 捕获组引用，$& 表示整个匹配"
+                           autocomplete="off" spellcheck="false">
+                </div>
+                <div id="replace-preview" class="hidden">
+                    <div class="panel-header">替换结果预览（<span class="diff-removed-text">删除</span> / <span class="diff-added-text">新增</span>）</div>
+                    <div id="replace-output"></div>
+                </div>
+            </div>
         </div>
-        <div id="replace-area"></div>
-        <div id="template-list"></div>
+
+        <!-- 右侧：常用正则模板 -->
+        <div id="template-list">
+            <div class="panel-header">常用正则</div>
+            <div id="template-items"></div>
+        </div>
     </div>
+
+    <!-- 悬停匹配的提示框 -->
+    <div id="match-tooltip" class="hidden"></div>
+
     <script src="js/regex-engine.js"></script>
     <script src="js/ui-controller.js"></script>
 </body>
