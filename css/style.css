@@ -1,0 +1,9 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Microsoft YaHei", sans-serif; background: #1a1a2e; color: #eee; }
+#app { display: flex; flex-direction: column; height: 100vh; padding: 15px; gap: 10px; }
+#regex-input-area { background: #16213e; padding: 15px; border-radius: 8px; }
+#main-content { display: flex; flex: 1; gap: 10px; }
+#text-input-area { flex: 1; background: #16213e; padding: 15px; border-radius: 8px; }
+#match-detail-area { width: 300px; background: #16213e; padding: 15px; border-radius: 8px; }
+#replace-area { background: #16213e; padding: 15px; border-radius: 8px; }
+#template-list { position: fixed; right: 15px; top: 200px; width: 200px; background: #16213e; padding: 15px; border-radius: 8px; }
